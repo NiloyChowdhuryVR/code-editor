@@ -8,6 +8,7 @@ const EditorPanel = () => {
   const [code,setCode] = useState<string>("// Write your code here!")
   const [language,setLanguage] = useState<string>("javascript")
   const [output,setOutput] = useState<string>("Still Nothing!")
+  const [version,setVersion] = useState<string>("18.15.0")
 
   const handleCodeChange = (value?:string)=>{
     setCode(value || "")
@@ -17,10 +18,11 @@ const EditorPanel = () => {
     try {
       const response = await axios.post("/api/piston",{
         language,
+        version,
         source: code
       })
 
-      setOutput(response.data)
+      setOutput(response.data.run?.output)
       console.log(response)
 
     } catch (error) {
